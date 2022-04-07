@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+      <style>
+         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins';
+        }
+
+        /* dragfunction css */
+
+        .wrapper {
+            width: 500px;
+            height: 500px;
+            background: #15151F;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dragbar {
+            -webkit-user-drag: drag;
+            display: flex;
+            justify-content: left;
+            align-items: center;
+            position: absolute;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 8px;
+        }
+
+        /* CLOSE MINIMIZE AND FULLSCREEN BTN */
+
+        .window-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            -webkit-app-region: no-drag;
+        }
+
+        .window-buttons:hover svg {
+         visibility: visible;
+            display: block;
+        }
+
+        .unfocused .window-button {
+            background-color: #0f0f16 !important;
+        }
+
+        .window-button {
+            display: flex;
+            height: 12px;
+            width: 54px;
+            margin-right: 6px;
+            border-radius: 50%;
+            box-sizing: border-box;
+            transition: 0.1s ease filter;
+        }
+
+        .window-button:active {
+            filter: brightness(70%);
+        }
+
+        .window-button--none {
+            background: #121212;
+        }
+
+        .window-button--yellow {
+            background: #FFBD44;
+        }
+
+        .window-button--red {
+            background: #FF605C;
+        }
+
+        .window-button--green {
+            background: #00CA4E;
+        }
+
+        /* logo */
+
+        .logo {
+            display: flex;
+            padding: 15px 0 0 0;
+            justify-content: center;
+        }
+
+        .logo__img {
+            user-drag: none;
+            user-select: none;
+            -webkit-user-drag: none;
+            -webkit-user-select: none;
+            filter: drop-shadow(0px 0px 6px #2a67e8);
+        }
+
+        /* exhibition name */
+
+        .form__wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .exhibitionAIO {
+            color: #fff;
+            font-size: 36px;
+            font-weight: 400;
+            text-shadow: 0px 0px 4px #fff;
+        }
+
+        /* key input */
+
+        .input {
+            width: 80%;
+            border-radius: 4px;
+            margin-top: 8px;
+            font-size: 16px;
+            padding: 10px 10px 10px 10px;
+            letter-spacing: 0.7px;
+            background-color: #0F0F16;
+            border: none;
+            outline: none;
+            color: #fff;
+            transition: 0.3s ease;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        ::placeholder {
+            color: #4E4E4E;
+        }
+
+        /* auth button , login button */
+
+        .button {
+            display: flex;
+            width: 84%;
+            justify-content: center;
+            align-items: center;
+            height: 36px;
+            font-size: 16px;
+            color: #fff;
+            text-shadow: 0px 0px 6px #fff;
+            background-color: #2a67e8;
+            filter: drop-shadow(0px 0px 6px #2a67e8);
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            transition: 0.3s ease;
+        }
+
+      </style>
+   </head>
+   <body>
+       <div class="wrapper">
+           <div class="dragbar">
+               <div class="window-button" id="window-buttons">
+                <div id="close" class="window-button window-button--red"></div>
+                <div id="min" class="window-button window-button--yellow"></div>
+                <div id="none" class="window-button window-button--none"></div>
+               </div>
+            </div>
+        <div class="background">
+            <div class="logo">
+                <img src="./logo.png" class="logo__img">
+            </div>
+            <div class="form__wrapper">
+                <span class="exhibitionAIO">Exhibition AIO</span>
+                <input id="keyField" type="text" class="input" placeholder="XXXX-XXXX-XXXX-XXXX">
+                <button id="loginButton" class="button green" onclick="sendKey()">
+                    Authenticate
+                  </button>
+            </div>
+        </div>
+        <script>
+            function sendKey() {
+              const key = document.getElementById('keyField').value.replace(/\s/g, '');
+              window.api.send('login-key', key);
+            }
+      
+            window.addEventListener('focus', () => {
+              document.getElementById('window-buttons').classList.remove('unfocused');
+            });
+      
+            window.addEventListener('blur', () => {
+              document.getElementById('window-buttons').classList.add('unfocused');
+            });
+        </script>
+   </body>
+</html>
